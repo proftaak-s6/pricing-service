@@ -1,11 +1,16 @@
-FROM python:3.7.2-alpine
+﻿FROM mcr.microsoft.com/dotnet/core/sdk:2.2
+WORKDIR /app
 
-COPY . /api
+# Copy csproj and restore as distinct layers
+COPY Rekeningrijden.PricingService/*.csproj ./
+RUN dotnet restore
 
-WORKDIR /api
+# Copy everything else and build
+COPY Rekeningrijden.PricingService/ ./
+RUN dotnet publish -c Release -o out
 
-RUN pip install -r requirements.txt
-
-EXPOSE 5000
-
-CMD ["python", "/api/src/app.py"]
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+WORKDIR /app
+COPY --from=0 /app/out .
+ENTRYPOINT ["dotnet", "Rekeningrijden.PricingService.dll"]

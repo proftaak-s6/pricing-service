@@ -1,10 +1,22 @@
-version: '3'
+﻿version: '3'
 
 services:
   pricing:
     build: .
-    volumes:
-      - .:/api/
     ports:
-      - 5000:5000
-    
+      - 8080:80
+    environment:
+      CONNECTION_STRING: "Server=db;Port=3306;Database=projectdb;Uid=mysql;Pwd=mysql;"
+  
+  db:
+    image: "mysql:8.0.15"
+    environment:
+      - MYSQL_DATABASE=projectdb
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_ROOT_PASSWORD=supersecret
+      - MYSQL_VERSION=8.0.15
+    volumes:
+      - ./volumes/db/data/:/var/lib/mysql/
+    ports:
+      - "3300:3306"
