@@ -38,7 +38,7 @@ pipeline {
             steps{
                 node("docker-prod"){
                     git([url: 'https://github.com/proftaak-s6/pricing-service.git', branch: 'master', credentialsId: 'Github'])
-                    // sh "docker service rm pricing-service_invoice"
+                    sh "docker service rm pricing-service_pricing"
                     sh "docker stack deploy --with-registry-auth -c docker-compose.prod.yml pricing-service"
                 }
             }
