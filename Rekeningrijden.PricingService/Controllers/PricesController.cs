@@ -55,7 +55,9 @@ namespace Rekeningrijden.PricingService.Controllers
         public IActionResult AddPriceHistoryEntry(string name, [FromBody] PriceHistoryEntry newEntry)
         {
             // Check if a date is provided, otherwise use the current time.
-            newEntry.Date = newEntry.Date == DateTime.MinValue ? DateTime.Now : newEntry.Date;
+            newEntry.Date = newEntry.Date == DateTime.MinValue 
+                ? TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Europe/Amsterdam") 
+                : newEntry.Date;
 
             try
             {
