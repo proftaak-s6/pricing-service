@@ -12,5 +12,9 @@ RUN dotnet publish -c Release -o out
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 WORKDIR /app
+
+
+RUN echo "Europe/Amsterdam" > /etc/timezone
+
 COPY --from=0 /app/out .
 ENTRYPOINT ["dotnet", "Rekeningrijden.PricingService.dll"]

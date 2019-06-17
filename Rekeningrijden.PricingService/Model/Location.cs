@@ -24,7 +24,7 @@ namespace Rekeningrijden.PricingService.Model
             {
                 new PriceHistoryEntry
                 {
-                    Date = DateTime.Now,
+                    Date = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "Europe/Amsterdam"),
                     Price = price
                 }
             };
